@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -45,7 +46,24 @@ INSTALLED_APPS = [
     'allauth.account',  # Django All Auth Accounts
     'allauth.socialaccount',
     'rest_framework',
+    'knox',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'ShelfieUser.authentication.ExampleAuthentication',
+        'knox.auth.TokenAuthentication',
+    ],
+}
+
+REST_KNOX = {
+  'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
+  'AUTH_TOKEN_CHARACTER_LENGTH': 64,
+  'TOKEN_TTL': timedelta(hours=10),
+  'USER_SERIALIZER': 'ShelfieUser.serializers.UserSerializer',
+}
+
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

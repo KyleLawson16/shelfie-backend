@@ -1,4 +1,11 @@
 from rest_framework import serializers
+from django.db.models import Q
+
+from rest_framework.serializers import (
+    CharField,
+    EmailField
+)
+from rest_framework.authtoken.models import Token
 
 from ShelfieUser.models import User
 
@@ -47,6 +54,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
         )
         user.set_password(validated_data['password'])
+
         user.save()
 
         return user
@@ -79,3 +87,45 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'is_superuser',
             'gender',
         ]
+
+# class UserLoginSerializer(serializers.ModelSerializer):
+#     token = CharField(allow_blank=True, read_only=True)
+#     username = CharField(required=False, allow_blank=True)
+#     email = EmailField(label='Email Address', required=False, allow_blank=True)
+#     class Meta:
+#         model = User
+#         fields = [
+#             'username',
+#             'email',
+#             'password',
+#             'token',
+#
+#         ]
+#         extra_kwargs = {"password":
+#                             {"write_only": True}
+#                             }
+#     def validate(self, data):
+#         user_obj = None
+#         email = data.get("email", None)
+#         username = data.get("username", None)
+#         password = data["password"]
+#         if not email and not username:
+#             raise ValidationError("A username or email is required to login")
+#
+#         user = User.objects.filter(
+#             Q(email=email) |
+#             Q(username=username)
+#         ).distinct()
+#         if user.exists() and user.count() == 1:
+#             user_obj = user.first()
+#         else:
+#             raise ValidationError("The username or email entered is not valid")
+#
+#         if user_obj:
+#             if not user_obj.check_password(password):
+#                 raise ValidationError("Incorrect username or password")
+#
+#
+#         data["token"] = "TOKEN"
+#
+#         return data

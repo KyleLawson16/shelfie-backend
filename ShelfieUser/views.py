@@ -10,11 +10,16 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 from ShelfieUser.forms import MemberFormPersonal, MemberProfilePhotoForm
 from ShelfieUser.models import User
 from ShelfieUser.permissions import IsOwnerOrSuperUser, IsSuperUser
 from ShelfieUser.serializers import UserCreateSerializer, UserSerializer
+
+from knox.views import LoginView as KnoxLoginView
+from django.contrib.auth import authenticate
 
 
 # Quick login redirect view, it can be used to add in new login add ons
@@ -123,7 +128,7 @@ class UserDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, gener
 class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
-
+    
 
 class LoggedInUserAPIView(generics.RetrieveAPIView):
     serializer_class = UserSerializer

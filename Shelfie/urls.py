@@ -8,6 +8,8 @@ from django.shortcuts import render_to_response
 from django.template import Context, loader
 from rest_framework import routers
 from Shelfie.views import api_home
+from knox import views as knox_views
+from Shelfie.views import LoginView
 
 from ShelfieUser.views import (LoggedInUserAPIView, UserCreateAPIView,
                                    UserDetailAPIView, UserListAPIView,
@@ -42,7 +44,9 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     url(r'^api/v1/$', api_home, name='api_home'),
-    url(r'^api/v1/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/v1/login/', LoginView.as_view(), name='knox_login'),
+    url(r'^api/v1/logout/', knox_views.LogoutView.as_view(), name='knox_logout'),
+    url(r'^api/v1/logoutall/', knox_views.LogoutAllView.as_view(), name='knox_logoutall'),
     url(r'^api/v1/users/$', UserListAPIView.as_view(), name='UserListAPIView'),
     url(r'^api/v1/users/(?P<random_user_id>[\w-]+)/$',
         UserDetailAPIView.as_view(), name='UserDetailAPIView'),
