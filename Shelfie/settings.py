@@ -63,8 +63,6 @@ REST_KNOX = {
   'USER_SERIALIZER': 'ShelfieUser.serializers.UserSerializer',
 }
 
-CSRF_COOKIE_NAME = "XSRF-TOKEN"
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

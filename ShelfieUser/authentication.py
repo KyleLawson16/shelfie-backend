@@ -12,7 +12,7 @@ class ExampleAuthentication(authentication.BaseAuthentication):
         password = request.data.get('password', None)
 
         if not username or not password:
-            raise exceptions.AuthenticationFailed(_('No credentials provided.'))
+            raise exceptions.AuthenticationFailed('No credentials provided.')
 
         credentials = {
             'username': username,
@@ -22,10 +22,10 @@ class ExampleAuthentication(authentication.BaseAuthentication):
         user = authenticate(**credentials)
 
         if user is None:
-            raise exceptions.AuthenticationFailed(_('Invalid username/password.'))
+            raise exceptions.AuthenticationFailed('Invalid username/password.')
 
         if not user.is_active:
-            raise exceptions.AuthenticationFailed(_('User inactive or deleted.'))
+            raise exceptions.AuthenticationFailed('User inactive or deleted.')
 
 
         return (user, None)  # authentication successful

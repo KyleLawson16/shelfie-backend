@@ -19,6 +19,9 @@ from ShelfieUser.permissions import IsOwnerOrSuperUser, IsSuperUser
 from ShelfieUser.serializers import UserCreateSerializer, UserSerializer
 
 from knox.views import LoginView as KnoxLoginView
+from ShelfieUser.authentication import ExampleAuthentication
+from knox.models import AuthToken
+from knox.auth import TokenAuthentication
 from django.contrib.auth import authenticate
 
 
@@ -102,8 +105,8 @@ class UserListAPIView(generics.ListAPIView):
 class UserDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    permission_classes = [IsOwnerOrSuperUser, IsAuthenticated]
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [TokenAuthentication,]
+    permission_classes = [IsAuthenticated,]
 
     # Works off of the mixins.UpdateModelMixin
     def put(self, request, *args, **kwargs):
@@ -116,19 +119,22 @@ class UserDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, gener
     def get_object(self, *args, **kwargs):
         random_user_id = self.kwargs.pop('random_user_id')
         user = get_object_or_404(User, random_user_id=random_user_id)
+        tokens = AuthToken.objects.filter(user=user)
         # If the use is not a super user ...
         if not self.request.user.is_superuser:
             # ... and the user they are looking at is not themselves then they are block
-            if not (user.username == self.request.user.username):
-                raise PermissionDenied(
-                    'Sorry, you do not have permissions to view this entry')
+            for token in tokens:
+                print token
+                # if not (token == self.request.token):
+                #     raise PermissionDenied(
+                #         'Sorry, you do not have permissions to view this entry')
         return user
 
 
 class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
-    
+
 
 class LoggedInUserAPIView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
