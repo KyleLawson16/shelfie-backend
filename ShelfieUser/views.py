@@ -78,6 +78,8 @@ def edit_profile_photo(request):
 class UserListAPIView(generics.ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
+    authentication_classes = [TokenAuthentication,]
+    permission_classes = [IsAuthenticated,]
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('username', 'first_name', 'last_name',
