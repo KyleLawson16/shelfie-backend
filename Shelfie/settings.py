@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'ShelfieGame',
     'ShelfieChallenge',
+    'ShelfiePost',
 
     # Third party apps
     'allauth',  # Django All Auth
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'knox',
+    'django_filters',
 ]
 
 REST_FRAMEWORK = {

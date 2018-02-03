@@ -26,25 +26,7 @@ class GameListAPIView(generics.ListAPIView):
     def get_queryset(self):
         games = Game.objects.all()
         return games
-
-    def get_object(self):
-        games = Game.objects.all()
-        new_games = []
-        for game in games:
-            challenges = game.challenges.all()
-            point_values = []
-            for challenge in challenges:
-                if challenge.point_value not in point_values:
-                    point_values.append(challenge.point_value)
-            print point_values
-            sorted_challenges = {}
-            for value in point_values:
-                equal_challenges = challenges.filter(point_value=value)
-                sorted_challenges[value] = equal_challenges
-            print sorted_challenges
-            new_games.append(sorted_challenges)
-        return new_games
-
+        
 
 class GameDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, generics.RetrieveAPIView):
     serializer_class = GameSerializer

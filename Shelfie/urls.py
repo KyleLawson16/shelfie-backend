@@ -56,8 +56,12 @@ urlpatterns = [
         name='LoggedInUserAPIView'),
     url(r'^api/v1/validate/user$', validate_user_data,
         name='validate_user_name'),
-    url(r'^api/v1/games/', include('ShelfieGame.urls', namespace='ShelfieGame')),
-    url(r'^api/v1/challenges/', include('ShelfieChallenge.urls', namespace='ShelfieChallenge')),
+    url(r'^api/v1/games/', include('ShelfieGame.urls',
+        namespace='ShelfieGame')),
+    url(r'^api/v1/challenges/', include('ShelfieChallenge.urls',
+        namespace='ShelfieChallenge')),
+    url(r'^api/v1/posts/', include('ShelfiePost.urls',
+        namespace='ShelfiePost')),
 ]
 urlpatterns += [
 
