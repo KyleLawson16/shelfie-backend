@@ -10,6 +10,7 @@ def random_id():
     unique_id = get_random_string(length=12, allowed_chars='0123456789qwertyuiopasdfghjklzxcvbnm')
     return unique_id
 
+
 class Game(models.Model):
     random_game_id = models.CharField(
         'Random Game Id',
@@ -24,17 +25,12 @@ class Game(models.Model):
         blank=True,
         null=True
     )
-    team_1 = models.CharField(
-        max_length=120,
-        blank=True,
-        null=True
-    )
-    team_2 = models.CharField(
-        max_length=120,
-        blank=True,
-        null=True
-    )
     home_team = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True
+    )
+    away_team = models.CharField(
         max_length=120,
         blank=True,
         null=True
@@ -49,17 +45,7 @@ class Game(models.Model):
         blank=True,
         null=True
     )
-    challenges = models.ManyToManyField(Challenge, through='GameChallenge')
+    challenges = models.ManyToManyField(Challenge)
 
-
-class GameChallenge(models.Model):
-    game_challenge_id = models.CharField(
-        'Game Challenge Id',
-        editable=False,
-        unique=True,
-        max_length=120,
-        default=random_id,
-        primary_key=True
-    )
-    game = models.ForeignKey(Game)
-    challenge = models.ForeignKey(Challenge)
+    def __unicode__(self):
+        return str(self.home_team) + '-' + str(self.away_team) + '-' + str(self.date)

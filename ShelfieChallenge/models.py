@@ -31,3 +31,6 @@ class Challenge(models.Model):
         blank=True,
         null=True
     )
+
+    def __unicode__(self):
+        return str(self.name)
