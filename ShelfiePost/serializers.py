@@ -32,11 +32,20 @@ class PostChallengeSerializer(serializers.ModelSerializer):
             'point_value',
         ]
 
+class PostLikesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'random_user_id',
+            'username',
+        ]
+
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     url = PostUrlField(view_name='ShelfiePost:PostDetailAPIView')
     user = PostUserSerializer()
     game = PostGameSerializer()
     challenge = PostChallengeSerializer()
+    likes = PostLikesSerializer(many=True)
 
     class Meta:
         model = Post
@@ -49,4 +58,5 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
             'media_url',
             'caption',
             'timestamp',
+            'likes',
         ]

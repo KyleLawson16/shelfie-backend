@@ -28,9 +28,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
             'phone_number',
             'is_staff',
             'is_superuser'
-
-
-
         ]
 
     def create(self, validated_data):

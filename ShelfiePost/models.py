@@ -49,3 +49,11 @@ class Post(models.Model):
         auto_now=False,
         auto_now_add=True
     )
+    likes = models.ManyToManyField(
+        User,
+        related_name='likes',
+        blank=True,
+    )
+
+    def __unicode__(self):
+        return str(self.user) + '-' + str(self.game) + '-' + str(self.challenge)
