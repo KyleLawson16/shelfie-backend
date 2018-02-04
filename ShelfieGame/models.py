@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 from django.db import models
 
 from ShelfieChallenge.models import Challenge
+from ShelfiePrize.models import Prize
 
 def random_id():
     unique_id = get_random_string(length=12, allowed_chars='0123456789qwertyuiopasdfghjklzxcvbnm')
@@ -45,7 +46,13 @@ class Game(models.Model):
         blank=True,
         null=True
     )
-    challenges = models.ManyToManyField(Challenge)
+    challenges = models.ManyToManyField(
+        Challenge
+    )
+    prizes = models.ManyToManyField(
+        Prize,
+        blank=True,
+    )
 
     def __unicode__(self):
         return str(self.home_team) + '-' + str(self.away_team) + '-' + str(self.date)

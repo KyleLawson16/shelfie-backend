@@ -16,7 +16,7 @@ class PrizeUserSerializer(serializers.ModelSerializer):
 
 class PrizeSerializer(serializers.HyperlinkedModelSerializer):
     url = PrizeUrlField(view_name='ShelfiePrize:PrizeDetailAPIView')
-    user = PrizeUserSerializer()
+    winner = PrizeUserSerializer()
 
     class Meta:
         model = Prize
@@ -25,5 +25,5 @@ class PrizeSerializer(serializers.HyperlinkedModelSerializer):
             'random_prize_id',
             'name',
             'description',
-            'user',
+            'winner',
         ]

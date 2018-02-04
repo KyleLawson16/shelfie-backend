@@ -64,7 +64,7 @@ class UserUrlField(serializers.HyperlinkedIdentityField):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
-    url = UserUrlField(view_name='UserDetailAPIView')
+    url = UserUrlField(view_name='ShelfieUser:UserDetailAPIView')
     username = serializers.CharField(read_only=True)
 
 
