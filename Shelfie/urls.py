@@ -11,9 +11,7 @@ from Shelfie.views import api_home
 from knox import views as knox_views
 from Shelfie.views import LoginView
 
-from ShelfieUser.views import (LoggedInUserAPIView, UserCreateAPIView,
-                                   UserDetailAPIView, UserListAPIView,
-                                   login_redirect, validate_user_data)
+from ShelfieUser.views import login_redirect
 
 
 def handler404(request):  # Handles page not found
@@ -43,32 +41,30 @@ Django REST Frameworks Urls
 router = routers.DefaultRouter()
 
 urlpatterns = [
-    url(r'^api/v1/$', api_home, name='api_home'),
-    url(r'^api/v1/login/', LoginView.as_view(), name='knox_login'),
-    url(r'^api/v1/logout/', knox_views.LogoutView.as_view(), name='knox_logout'),
-    url(r'^api/v1/logoutall/', knox_views.LogoutAllView.as_view(), name='knox_logoutall'),
-    url(r'^api/v1/users/$', UserListAPIView.as_view(), name='UserListAPIView'),
-    url(r'^api/v1/users/(?P<random_user_id>[\w-]+)/$',
-        UserDetailAPIView.as_view(), name='UserDetailAPIView'),
-    url(r'^api/v1/users/create$', UserCreateAPIView.as_view(),
-        name='UserCreateAPIView'),
-    url(r'^api/v1/users/logged-in-user$', LoggedInUserAPIView.as_view(),
-        name='LoggedInUserAPIView'),
-    url(r'^api/v1/validate/user$', validate_user_data,
-        name='validate_user_name'),
+    url(r'^api/v1/$', api_home,
+        name='api_home'),
+    url(r'^api/v1/login/', LoginView.as_view(),
+        name='knox_login'),
+    url(r'^api/v1/logout/', knox_views.LogoutView.as_view(),
+        name='knox_logout'),
+    url(r'^api/v1/logoutall/', knox_views.LogoutAllView.as_view(),
+        name='knox_logoutall'),
+    url(r'^api/v1/', include('ShelfieUser.urls',
+        namespace='ShelfieUser')),
     url(r'^api/v1/games/', include('ShelfieGame.urls',
         namespace='ShelfieGame')),
     url(r'^api/v1/challenges/', include('ShelfieChallenge.urls',
         namespace='ShelfieChallenge')),
     url(r'^api/v1/posts/', include('ShelfiePost.urls',
         namespace='ShelfiePost')),
+    url(r'^api/v1/prizes/', include('ShelfiePrize.urls',
+        namespace='ShelfiePrize')),
 ]
 urlpatterns += [
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^accounts/profile', login_redirect, name='login_redirect'),
-    url(r'^profile/', include('ShelfieUser.urls', namespace='ShelfieUser')),
     url(r'^logout/$', logout, {'next_page': '/'}, name='logout'),
 
 ]

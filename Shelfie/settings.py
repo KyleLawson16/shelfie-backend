@@ -41,9 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    # Project apps
     'ShelfieGame',
     'ShelfieChallenge',
     'ShelfiePost',
+    'ShelfiePrize',
 
     # Third party apps
     'allauth',  # Django All Auth
