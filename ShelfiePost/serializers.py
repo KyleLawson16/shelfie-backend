@@ -60,3 +60,15 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
             'timestamp',
             'likes',
         ]
+
+class PostCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = [
+            'user',
+            'game',
+            'challenge',
+            'is_video',
+            'media_url',
+            'caption',
+        ]

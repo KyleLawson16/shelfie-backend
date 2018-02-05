@@ -12,6 +12,7 @@ class GameChallengesSerializer(serializers.ModelSerializer):
         model = Challenge
         fields = [
             'point_value',
+            'random_challenge_id',
             'name',
             'description',
         ]

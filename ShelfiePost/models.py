@@ -35,6 +35,9 @@ class Post(models.Model):
         Challenge,
         on_delete=models.CASCADE
     )
+    is_video = models.BooleanField(
+        default=False,
+    )
     media_url = models.CharField(
         max_length=120,
         blank=True,
