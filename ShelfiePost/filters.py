@@ -6,4 +6,4 @@ from rest_framework import generics
 class PostFilter(django_filters.FilterSet):
     class Meta:
         model = Post
-        fields = ['game']
+        fields = ['game', 'user']

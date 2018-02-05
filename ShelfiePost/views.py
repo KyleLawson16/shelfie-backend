@@ -51,7 +51,7 @@ class PostListAPIView(generics.ListAPIView):
     search_fields = ('user', 'game', 'challenge')
 
     def get_queryset(self):
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by('-timestamp')
         return posts
 
 

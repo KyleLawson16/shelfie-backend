@@ -55,6 +55,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
             'user',
             'game',
             'challenge',
+            'is_video',
             'media_url',
             'caption',
             'timestamp',

@@ -6,6 +6,7 @@ from django.db import models
 
 from ShelfieChallenge.models import Challenge
 from ShelfiePrize.models import Prize
+from ShelfieUser.models import User
 
 def random_id():
     unique_id = get_random_string(length=12, allowed_chars='0123456789qwertyuiopasdfghjklzxcvbnm')
@@ -51,6 +52,10 @@ class Game(models.Model):
     )
     prizes = models.ManyToManyField(
         Prize,
+        blank=True,
+    )
+    fans = models.ManyToManyField(
+        User,
         blank=True,
     )
 
