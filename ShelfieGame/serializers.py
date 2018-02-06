@@ -4,6 +4,7 @@ from ShelfieGame.models import Game
 from ShelfieChallenge.models import Challenge
 from ShelfiePrize.models import Prize
 from ShelfieUser.models import User
+from ShelfiePost.models import Post
 
 class GameUrlField(serializers.HyperlinkedIdentityField):
     lookup_field = 'random_game_id'
@@ -57,3 +58,39 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
 
     def get_fans(self, obj):
         return obj.fans.count()
+
+class GameLeaderboardSerializer(serializers.ModelSerializer):
+    leaderboard = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Game
+        fields = [
+            'leaderboard',
+        ]
+
+    def get_leaderboard(self, obj):
+        posts = Post.objects.all()
+        users = []
+        for post in posts:
+            users.append(post.user)
+        filtered_users = []
+        for user in users:
+            if user not in filtered_users:
+                filtered_users.append(user)
+
+        leaderboard = []
+        for user in filtered_users:
+            leaderboard_object = {}
+            user_points = 0
+            user_posts = posts.filter(user=user)
+            for post in user_posts:
+                user_points += post.challenge.point_value
+            leaderboard_object = {
+                'random_user_id': user.random_user_id,
+                'username': user.username,
+                'points': user_points
+            }
+            leaderboard.append(leaderboard_object)
+
+        print leaderboard
+        return leaderboard
