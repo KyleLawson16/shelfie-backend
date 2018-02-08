@@ -29,3 +29,15 @@ class ExampleAuthentication(authentication.BaseAuthentication):
 
 
         return (user, None)  # authentication successful
+
+class CreateUserAuthentication(authentication.BaseAuthentication):
+
+    def authenticate(self, request):
+
+        # Get the username and password
+        token = request.data.get('token', None)
+
+        if not token or token != 'shelfie-create-user':
+            raise exceptions.AuthenticationFailed('No credentials provided.')
+
+        return ('success', None)  # authentication successful

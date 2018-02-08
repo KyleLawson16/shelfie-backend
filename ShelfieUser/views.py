@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import filters, generics, mixins
 from rest_framework.authentication import (BasicAuthentication,
                                            SessionAuthentication)
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.exceptions import PermissionDenied, ValidationError
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -19,7 +19,7 @@ from ShelfieUser.permissions import IsOwnerOrSuperUser, IsSuperUser
 from ShelfieUser.serializers import UserCreateSerializer, UserSerializer
 
 from knox.views import LoginView as KnoxLoginView
-from ShelfieUser.authentication import ExampleAuthentication
+from ShelfieUser.authentication import ExampleAuthentication, CreateUserAuthentication
 from knox.models import AuthToken
 from knox.auth import TokenAuthentication
 from django.contrib.auth import authenticate
@@ -136,6 +136,8 @@ class UserDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, gener
 class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
+    authentication_classes = []
+    permission_classes = []
 
 
 class LoggedInUserAPIView(generics.RetrieveAPIView):

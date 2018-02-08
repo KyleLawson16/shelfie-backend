@@ -19,7 +19,7 @@ urlpatterns = [
         name='UserListAPIView'),
     url(r'^users/(?P<random_user_id>[\w-]+)/$', UserDetailAPIView.as_view(),
         name='UserDetailAPIView'),
-    url(r'^users/create$', UserCreateAPIView.as_view(),
+    url(r'^create-user/$', UserCreateAPIView.as_view(),
         name='UserCreateAPIView'),
     url(r'^users/logged-in-user$', LoggedInUserAPIView.as_view(),
         name='LoggedInUserAPIView'),

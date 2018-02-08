@@ -14,6 +14,8 @@ class PostUserSerializer(serializers.ModelSerializer):
         fields = [
             'random_user_id',
             'username',
+            'first_name',
+            'last_name',
         ]
 
 class PostGameSerializer(serializers.ModelSerializer):
