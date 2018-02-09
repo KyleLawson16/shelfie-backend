@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'ShelfieChallenge',
     'ShelfiePost',
     'ShelfiePrize',
+    'ShelfieTeam',
 
     # Third party apps
     'allauth',  # Django All Auth
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'django_filters',
+    'storages',
 ]
 
 REST_FRAMEWORK = {
@@ -188,3 +190,10 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 max_age = None
 expires = None
+
+# Amazon S3
+AWS_S3_ACCESS_KEY_ID = 'AKIAJJ2VBIDH6Z4LWTEA'
+AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'shelfie-challenge'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

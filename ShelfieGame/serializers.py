@@ -5,6 +5,7 @@ from ShelfieChallenge.models import Challenge
 from ShelfiePrize.models import Prize
 from ShelfieUser.models import User
 from ShelfiePost.models import Post
+from ShelfieTeam.models import Team
 
 class GameUrlField(serializers.HyperlinkedIdentityField):
     lookup_field = 'random_game_id'
@@ -31,15 +32,33 @@ class GameFansSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'random_user_id',
+            'fans_ids',
+        ]
+
+class GameTeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = [
+            'random_team_id',
+            'name',
+            'location',
+            'logo_url',
         ]
 
 class GameSerializer(serializers.HyperlinkedModelSerializer):
     url = GameUrlField(view_name='ShelfieGame:GameDetailAPIView')
     challenges = GameChallengesSerializer(many=True)
     prizes = GamePrizesSerializer(many=True)
+    home_team = GameTeamSerializer()
+    away_team = GameTeamSerializer()
+    organization = GameTeamSerializer()
 
-    fans = serializers.SerializerMethodField()
+    fans_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=False,
+        queryset=Game.objects.all(),
+        source='fans'
+    )
 
     class Meta:
         model = Game
@@ -53,11 +72,9 @@ class GameSerializer(serializers.HyperlinkedModelSerializer):
             'location',
             'challenges',
             'prizes',
-            'fans',
+            'fans_ids',
         ]
 
-    def get_fans(self, obj):
-        return obj.fans.count()
 
 class GameLeaderboardSerializer(serializers.ModelSerializer):
     leaderboard = serializers.SerializerMethodField()

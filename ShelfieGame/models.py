@@ -7,6 +7,7 @@ from django.db import models
 from ShelfieChallenge.models import Challenge
 from ShelfiePrize.models import Prize
 from ShelfieUser.models import User
+from ShelfieTeam.models import Team
 
 def random_id():
     unique_id = get_random_string(length=12, allowed_chars='0123456789qwertyuiopasdfghjklzxcvbnm')
@@ -27,20 +28,26 @@ class Game(models.Model):
         blank=True,
         null=True
     )
-    home_team = models.CharField(
-        max_length=120,
+    home_team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name='home_team',
         blank=True,
-        null=True
+        null=True,
     )
-    away_team = models.CharField(
-        max_length=120,
+    away_team = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name='away_team',
         blank=True,
-        null=True
+        null=True,
     )
-    organization = models.CharField(
-        max_length=120,
+    organization = models.ForeignKey(
+        Team,
+        on_delete=models.CASCADE,
+        related_name='organization',
         blank=True,
-        null=True
+        null=True,
     )
     location = models.CharField(
         max_length=120,

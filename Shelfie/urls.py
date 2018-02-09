@@ -59,6 +59,8 @@ urlpatterns = [
         namespace='ShelfiePost')),
     url(r'^api/v1/prizes/', include('ShelfiePrize.urls',
         namespace='ShelfiePrize')),
+    url(r'^api/v1/teams/', include('ShelfieTeam.urls',
+        namespace='ShelfieTeam')),
 ]
 urlpatterns += [
 
