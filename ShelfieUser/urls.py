@@ -11,15 +11,15 @@ from ShelfieUser.views import (
 )
 
 urlpatterns = [
-    url(r'^profile/$', edit_profile_information,
+    url(r'^profile$', edit_profile_information,
         name='edit_profile_information'),
-    url(r'^profile/change-photo/$', edit_profile_photo,
+    url(r'^profile/change-photo$', edit_profile_photo,
         name='edit_profile_photo'),
-    url(r'^users/$', UserListAPIView.as_view(),
+    url(r'^users$', UserListAPIView.as_view(),
         name='UserListAPIView'),
-    url(r'^users/(?P<random_user_id>[\w-]+)/$', UserDetailAPIView.as_view(),
+    url(r'^users/(?P<random_user_id>[\w-]+)$', UserDetailAPIView.as_view(),
         name='UserDetailAPIView'),
-    url(r'^create-user/$', UserCreateAPIView.as_view(),
+    url(r'^create-user$', UserCreateAPIView.as_view(),
         name='UserCreateAPIView'),
     url(r'^users/logged-in-user$', LoggedInUserAPIView.as_view(),
         name='LoggedInUserAPIView'),

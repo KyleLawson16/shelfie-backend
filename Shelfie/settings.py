@@ -197,3 +197,6 @@ AWS_S3_SECRET_ACCESS_KEY = '6yh2HB9kwnDl+7zVtcaUVoWwmuy4J8lvh3AWw+t3'
 AWS_STORAGE_BUCKET_NAME = 'shelfie-challenge'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+# URLs
+APPEND_SLASH = False
