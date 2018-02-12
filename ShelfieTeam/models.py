@@ -20,8 +20,6 @@ class Team(models.Model):
     )
     name = models.CharField(
         max_length=120,
-        blank=True,
-        null=True,
     )
     location = models.CharField(
         max_length=120,

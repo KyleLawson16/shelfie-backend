@@ -22,17 +22,14 @@ class Prize(models.Model):
     )
     name = models.CharField(
         max_length=120,
-        blank=True,
-        null=True
     )
     description = models.CharField(
         max_length=120,
-        blank=True,
-        null=True
     )
     winner = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
     )
 
     def __unicode__(self):

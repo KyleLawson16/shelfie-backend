@@ -40,8 +40,6 @@ class Post(models.Model):
     )
     media_url = models.CharField(
         max_length=120,
-        blank=True,
-        null=True
     )
     caption = models.CharField(
         max_length=120,

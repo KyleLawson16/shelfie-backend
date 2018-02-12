@@ -2,11 +2,15 @@
 ### Built with Django-rest-framework
 
 ## Models:
-* [ShelfieUser](#ShelfieUser)
-* [ShelfieTeam](#ShelfieTeam)
 * [ShelfieChallenge](#ShelfieChallenge)
-* [ShelfiePrize](#ShelfiePrize)
+* [ShelfieGame](#ShelfieGame)
 * [ShelfiePost](#ShelfiePost)
+* [ShelfiePrize](#ShelfiePrize)
+* [ShelfieTeam](#ShelfieTeam)
+* [ShelfieUser](#ShelfieUser)
+
+
+
 
 
 
@@ -14,7 +18,7 @@
 ### ShelfieChallenge.Challenge Fields
 
 | Field                     |  Type  | Description (* indicates required)       |
-| ------------------------- | :----: | :--------------------------------------- |
+| ------------------------- | ------ | :--------------------------------------- |
 | random_challenge_id       | string | *(PK) |
 | name                      | string | *Name of challenge |
 | description               | string | *Description of challenge |
@@ -22,8 +26,8 @@
 
 ### ShelfieChallenge Routes
 
-| Route                     | Type   | Takes  | Output       |
-| ------------------------- | :----: | :----: | :----------: |
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | ------------ |
 | api/v1/challenges         | GET    | None   | list of challenges |
 | api/v1/challenges/<random_challenge_id> | GET | None | challenge |
 
@@ -33,7 +37,7 @@
 ### ShelfieGame.Game Fields
 
 | Field                     |  Type  | Description (* indicates required)       |
-| ------------------------- | :----: | :--------------------------------------- |
+| ------------------------- | ------ | :--------------------------------------- |
 | random_game_id            | string | *(PK) |
 | date                      | date/time | *Date and time of game |
 | home_team                 | FK(ShelfieTeam.Team) | Home team in game |
@@ -46,12 +50,80 @@
 
 ### ShelfieGame Routes
 
-| Route                     | Type   | Takes  | Output       |
-| ------------------------- | :----: | :----: | :----------: |
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | ------------ |
 | api/v1/games              | GET    | None   | list of games |
 | api/v1/games/<random_game_id> | GET | None | game |
 | api/v1/games/<random_game_id> | PUT | 'random_user_id' | adds user to Game.fans |
 | api/v1/games/<random_game_id>/leaderboard | GET | None | { 'random_user_id', 'username', 'points' } in descending order of pts |
+
+
+
+## <a name="ShelfiePost">ShelfiePost</a>
+### ShelfiePost.Post Fields
+
+| Field                     |  Type  | Description (* indicates required)       |
+| ------------------------- | ------ | :--------------------------------------- |
+| random_post_id            | string | *(PK) |
+| user                      | FK(ShelfieUser.User) | *User post belongs to |
+| game                      | FK(ShelfieGame.Game) | *Game the post was created for |
+| challenge                 | FK(ShelfieChallenge.Challenge) | *Challenge the post was completing |
+| is_video                  | boolean | *Specifies whether or not the post was an image or video |
+| media_url                 | string | *Path to image/video |
+| caption                   | string | Caption of post |
+| timestamp                 | date/time | (auto) Date when post was created |
+| likes                     | ManyToMany(ShelfieUser.User) | List of user objects that liked post |
+
+### ShelfiePost Routes
+
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | ------------ |
+| api/v1/posts              | GET    | None   | list of posts |
+| api/v1/posts/create       | POST   | **required:** { 'user', 'game', 'challenge', 'is_video', 'media_url' } **optional:** { 'caption' } | None |
+| api/v1/posts/<random_post_id> | GET | None | post |
+| api/v1/posts/<random_post_id>/like/add | Post | 'random_user_id' | adds user to Post.likes |
+| api/v1/posts/<random_post_id>/like/delete | Post | 'random_user_id' | removes user from Post.likes |
+
+
+
+
+## <a name="ShelfiePrize">ShelfiePrize</a>
+### ShelfiePrize.Prize Fields
+
+| Field                     |  Type  | Description (* indicates required)       |
+| ------------------------- | ------ | :--------------------------------------- |
+| random_prize_id           | string | *(PK) |
+| name                      | string | *Name of prize |
+| description               | string | *Description of prize |
+| winner                    | FK(ShelfieUser.User) | User that won the prize |
+
+### ShelfiePrize Routes
+
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | ------------ |
+| api/v1/prizes             | GET    | None   | list of prizes |
+| api/v1/prizes/<random_prize_id> | GET | None | prize |
+
+
+
+
+## <a name="ShelfieTeam">ShelfieTeam</a>
+### ShelfieTeam.Team Fields
+
+| Field                     |  Type  | Description (* indicates required)       |
+| ------------------------- | ------ | :--------------------------------------- |
+| random_team_id            | string | *(PK) |
+| name                      | string | *Name of team |
+| location                  | string | Location of team |
+| logo_url                  | image  | path to team's logo image |
+| point_of_contact          | string | (Will be updated to a Foreign Key) |
+
+### ShelfieTeam Routes
+
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | ------------ |
+| api/v1/teams              | GET    | None   | list of teams |
+| api/v1/teams/<random_team_id> | GET | None  | team |
 
 
 
@@ -60,7 +132,7 @@
 ### ShelfieUser.User Fields
 
 | Field                     |  Type  | Description (* indicates required)       |
-| ------------------------- | :----: | :--------------------------------------- |
+| ------------------------- | ------ | :--------------------------------------- |
 | random_user_id            | string | *(PK) |
 | username                  | string | *Username of user |
 | email                     | string | *Email address of user |
@@ -75,8 +147,8 @@
 
 ### ShelfieUser Routes
 
-| Route                     | Type   | Takes  | Output       |
-| ------------------------- | :----: | :----: | :----------: |
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | ------------ |
 | api/v1/create-user        | POST   | **required:** { 'username', 'email', 'first_name', 'last_name', 'password', 'confirm_password', 'is_staff', 'is_superuser' } **optional:** { 'phone_number', 'middle_name', 'gender' } |
 | api/v1/users              | GET    | None   | list of users |
 | api/v1/users/<random_user_id> | GET | None  | user |
