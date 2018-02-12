@@ -25,8 +25,6 @@ class Game(models.Model):
     )
     date = models.DateTimeField(
         editable=True,
-        blank=True,
-        null=True
     )
     home_team = models.ForeignKey(
         Team,

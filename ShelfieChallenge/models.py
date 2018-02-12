@@ -19,17 +19,11 @@ class Challenge(models.Model):
     )
     name = models.CharField(
         max_length=120,
-        blank=True,
-        null=True
     )
     description = models.CharField(
         max_length=120,
-        blank=True,
-        null=True
     )
     point_value = models.IntegerField(
-        blank=True,
-        null=True
     )
 
     def __unicode__(self):
