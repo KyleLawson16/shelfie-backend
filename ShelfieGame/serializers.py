@@ -86,7 +86,7 @@ class GameLeaderboardSerializer(serializers.ModelSerializer):
         ]
 
     def get_leaderboard(self, obj):
-        posts = Post.objects.all()
+        posts = Post.objects.filter(game=obj)
         users = []
         for post in posts:
             users.append(post.user)
