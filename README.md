@@ -8,7 +8,7 @@
 * [ShelfiePrize](#ShelfiePrize)
 * [ShelfiePost](#ShelfiePost)
 
-## ShelfieUser
+## <a name="ShelfieUser">ShelfieUser</a>
 
 | Property                  |  Type  | Description (* indicates required)       |
 | ------------------------- | :----: | :--------------------------------------- |
