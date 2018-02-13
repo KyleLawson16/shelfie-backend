@@ -1,7 +1,7 @@
 # ShelfieChallenge API V1
 ### Built with Django-Rest-Framework
 
-## Important Info:
+## Table of Contents:
 * [Admin Panel](#Admin)
 * [Authentication](#Authentication)
 * [Media Storage](#Media)
