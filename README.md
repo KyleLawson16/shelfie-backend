@@ -1,5 +1,11 @@
 # ShelfieChallenge API V1
-### Built with Django-rest-framework
+### Built with Django-Rest-Framework
+
+## Important Info:
+* [Admin Panel](#Admin)
+* [Authentication](#Authentication)
+* [Media Storage](#Media)
+* [Setup](#Setup)
 
 ## Models:
 * [ShelfieChallenge](#ShelfieChallenge)
@@ -11,6 +17,79 @@
 
 
 
+## <a name="Admin">Admin:</a>
+
+Access the admin panel at /admin
+* Must be either staff or superuser to login
+* Set permissions
+* Create, Retrieve, Update, Destroy records
+
+
+
+## <a name="Authentication">Authentication:</a>
+
+Using [django-rest-knox](https://github.com/James1345/django-rest-knox) Token Authentication
+
+### Workflow
+1. Authenticate user (either Login or Create route)
+2. Request Knox Token
+3. Receive Knox Token and user object
+4. Use Knox Token as Authorization header in future requests
+   Example Auth header: { headers: { Authorization: 'Token <knox_token>' } }
+
+### Auth Routes
+
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | -------------- |
+| api/v1/login              | POST   | { 'username', 'password' } | { 'token', 'user' } |
+| api/v1/logout             | POST   | 'knox_token' | Logout user |
+| api/v1/logoutall          | ---    | ---    | ---            |
+
+
+
+## <a name="Media">Media Storage:</a>
+### Amazon S3
+* Bucket Name: "shelfie-challenge"
+* Region: US West (N. California)
+* File Tree:
+   -- shelfie-challenge
+      -- posts
+         -- photos
+         -- videos
+      -- teams
+         -- logos
+
+### Posts
+* Uploaded by front-end
+* Url stored in ShelfiePost.Post
+* Naming convention:
+   * '<random_game_id>-<randomly_generated_id>'
+
+### Teams
+* Logos uploaded through form in admin panel
+   * Using 'storages.backends.s3boto.S3BotoStorage'
+   * Can't be uploaded from front-end
+
+
+
+## <a name="Setup">Setup:</a>
+Clone repository:
+`git clone https://github.com/KyleLawson16/shelfie-backend.git`
+
+Create a virtual environment and activate it:
+`virtualenv env
+source env/bin/activate`
+
+Install requirements:
+`pip install -r requirements.txt`
+
+Initialize database:
+`python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser`
+
+Run server:
+`python manage.py runserver`
 
 
 
@@ -81,8 +160,8 @@
 | api/v1/posts              | GET    | None   | list of posts |
 | api/v1/posts/create       | POST   | **required:** { 'user', 'game', 'challenge', 'is_video', 'media_url' } **optional:** { 'caption' } | None |
 | api/v1/posts/<random_post_id> | GET | None | post |
-| api/v1/posts/<random_post_id>/like/add | Post | 'random_user_id' | adds user to Post.likes |
-| api/v1/posts/<random_post_id>/like/delete | Post | 'random_user_id' | removes user from Post.likes |
+| api/v1/posts/<random_post_id>/like/add | POST | 'random_user_id' | adds user to Post.likes |
+| api/v1/posts/<random_post_id>/like/delete | POST | 'random_user_id' | removes user from Post.likes |
 
 
 
