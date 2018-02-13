@@ -52,12 +52,12 @@ Using [django-rest-knox](https://github.com/James1345/django-rest-knox) Token Au
 * Bucket Name: "shelfie-challenge"
 * Region: US West (N. California)
 * File Tree:
-   -- shelfie-challenge
-      -- posts
-         -- photos
-         -- videos
-      -- teams
-         -- logos
+   * shelfie-challenge
+      * posts
+         * photos
+         * videos
+      * teams
+         * logos
 
 ### Posts
 * Uploaded by front-end
@@ -74,22 +74,32 @@ Using [django-rest-knox](https://github.com/James1345/django-rest-knox) Token Au
 
 ## <a name="Setup">Setup:</a>
 Clone repository:
-`git clone https://github.com/KyleLawson16/shelfie-backend.git`
+```
+git clone https://github.com/KyleLawson16/shelfie-backend.git
+```
 
 Create a virtual environment and activate it:
-`virtualenv env
-source env/bin/activate`
+```
+virtualenv env
+source env/bin/activate
+```
 
 Install requirements:
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 Initialize database:
-`python manage.py makemigrations
+```
+python manage.py makemigrations
 python manage.py migrate
-python manage.py createsuperuser`
+python manage.py createsuperuser
+```
 
 Run server:
-`python manage.py runserver`
+```
+python manage.py runserver
+```
 
 
 
