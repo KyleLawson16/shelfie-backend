@@ -11,8 +11,6 @@ from Shelfie.views import api_home
 from knox import views as knox_views
 from Shelfie.views import LoginView
 
-from ShelfieUser.views import login_redirect
-
 
 def handler404(request):  # Handles page not found
     # You need to create a 500.html template.
@@ -66,7 +64,6 @@ urlpatterns += [
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^accounts/profile', login_redirect, name='login_redirect'),
     url(r'^logout/$', logout, {'next_page': '/'}, name='logout'),
 
 ]

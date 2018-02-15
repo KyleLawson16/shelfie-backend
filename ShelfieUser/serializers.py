@@ -83,6 +83,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'is_staff',
             'is_superuser',
             'gender',
+            'profile_picture',
         ]
 
 # class UserLoginSerializer(serializers.ModelSerializer):

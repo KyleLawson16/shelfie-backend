@@ -25,56 +25,6 @@ from knox.auth import TokenAuthentication
 from django.contrib.auth import authenticate
 
 
-# Quick login redirect view, it can be used to add in new login add ons
-# for the login attempts
-
-
-@login_required
-def login_redirect(request):
-    return redirect('/app')
-
-
-# Allows members to edit personal profile information
-@login_required
-def edit_profile_information(request):
-    user = request.user
-    form = MemberFormPersonal(request.POST or None,
-                              request.FILES or None, instance=user)
-    if request.method == 'POST':
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
-            messages.success(request, 'Successfully updated profile! ')
-            return redirect("CleancultUser:edit_profile_information")
-    profile_active = True
-    context = {
-        'profile_active': profile_active,
-        'form': form
-    }
-    return render(request, 'app/user/profile/edit_profile_information.html', context)
-
-
-# Allows members to edit profile photo
-@login_required
-def edit_profile_photo(request):
-    user = request.user
-    print user.profile_image
-    form = MemberProfilePhotoForm(
-        request.POST or None, request.FILES or None, instance=user)
-    if request.method == 'POST':
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
-            messages.success(request, 'Successfully updated profile photo! ')
-            return redirect("CleancultUser:edit_profile_information")
-    profile_active = True
-    context = {
-        'profile_active': profile_active,
-        'form': form
-    }
-    return render(request, 'account/change_profile_photo.html', context)
-
-
 class UserListAPIView(generics.ListAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -108,11 +58,16 @@ class UserDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, gener
     serializer_class = UserSerializer
     queryset = User.objects.all()
     authentication_classes = [TokenAuthentication,]
-    permission_classes = [IsAuthenticated,]
+    permission_classes = []
 
     # Works off of the mixins.UpdateModelMixin
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        random_user_id = self.kwargs.pop('random_user_id')
+        user = get_object_or_404(User, random_user_id=random_user_id)
+        user.profile_picture = request.data['profile_picture']
+        user.save()
+        return Response(HTTP_200_OK)
+
 
     # Works off of the mixins.DestroyModelMixin
     def delete(self, request, *args, **kwargs):

@@ -233,6 +233,7 @@ python manage.py runserver
 | is_staff                  | boolean | *Specifies whether or not the user has staff permissions |
 | date_joined               | date/time | (auto) Date of user creation |
 | gender                    | string | Choices: (male, female) |
+| profile_picture           | string | Url of profile picture in Amazon S3 |
 
 ### ShelfieUser Routes
 
@@ -241,7 +242,5 @@ python manage.py runserver
 | api/v1/create-user        | POST   | **required:** { 'username', 'email', 'first_name', 'last_name', 'password', 'confirm_password', 'is_staff', 'is_superuser' } **optional:** { 'phone_number', 'middle_name', 'gender' } |
 | api/v1/users              | GET    | None   | list of users |
 | api/v1/users/<random_user_id> | GET | None  | user |
+| api/v1/users/<random_user_id> | PUT | { 'profile_picture' }  | None |
 | api/v1/users/logged-in-user | GET  | None   | user |
-| api/v1/profile            | ---    | ---    | ---          |
-| api/v1/profile/change-photo | ---  | ---    | ---          |
-| api/v1/validate/user      | ---    | ---    | ---          |

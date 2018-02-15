@@ -22,11 +22,6 @@ def random_id():
     return unique_id
 
 
-def upload_profile_location(instance, filename, *args, **kwargs):
-    location = random_id()
-    return "media/profile-images/%s/%s" % (location, filename)
-
-
 class UserManager(BaseUserManager):
 
     def _create_user(self, username, email, password, is_staff, is_superuser,
@@ -144,6 +139,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         default="",
     )
+    profile_picture = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True,
+    )
+
 
 
 

@@ -76,6 +76,7 @@ class UserAdmin(BaseUserAdmin, ):
         )}),
         ('Site info', {'fields': (
             'username',
+            'profile_picture',
             'is_staff',
             'is_active',
             'is_superuser',
