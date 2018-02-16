@@ -1,1 +1,1 @@
-web: gunicorn pureworld.wsgi
+web: gunicorn Shelfie.wsgi
