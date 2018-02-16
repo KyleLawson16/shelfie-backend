@@ -4,6 +4,7 @@
 ## Table of Contents:
 * [Admin Panel](#Admin)
 * [Authentication](#Authentication)
+* [Deployment](#Deployment)
 * [Media Storage](#Media)
 * [Setup](#Setup)
 
@@ -44,6 +45,25 @@ Using [django-rest-knox](https://github.com/James1345/django-rest-knox) Token Au
 | api/v1/login              | POST   | { 'username', 'password' } | { 'token', 'user' } |
 | api/v1/logout             | POST   | 'knox_token' | Logout user |
 | api/v1/logoutall          | ---    | ---    | ---            |
+
+
+
+## <a name="Deployment">Deployment:</a>
+### [Heroku](https://dashboard.heroku.com/apps/shelfie-api-staging)
+* Pipeline with:
+   * Staging
+   * Production
+   * Auto-deploys through github repo
+* PostgreSQL database
+* [Sentry](https://sentry.io/shelfie-challenge/) for logging
+* As simple as running `git push origin master`
+
+### Environment Variables
+* Project Secret Key
+* Amazon S3 Key ID
+* Amazon S3 Secret Key
+* Auto loaded through manage.py for development
+* Stored in Heroku Config Variables for production
 
 
 

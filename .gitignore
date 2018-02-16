@@ -16,6 +16,7 @@ node_modules/
 tests/coverage_html/
 tests/.coverage
 tests/report/
+static/
 db.sqlite3
 local_settings.py
 .project
