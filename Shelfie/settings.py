@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ndygu9mikas+l#uxhcdr2-(*+k)v@96-0pu)oly_9)80hztag-'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -123,9 +123,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Sentry Logging
 RAVEN_CONFIG = {
     'dsn': 'https://39ef3347e1a54cc68d07c54f272be780:61fe94a2df214a569f00c97c94cab713@sentry.io/289347',
-    # If you are using git, you can also automatically configure the
-    # release based on the git info.
-    'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
 }
 
 
@@ -206,8 +203,8 @@ max_age = None
 expires = None
 
 # Amazon S3
-AWS_S3_ACCESS_KEY_ID = 'AKIAJJ2VBIDH6Z4LWTEA'
-AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_S3_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_S3_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'shelfie-challenge'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
