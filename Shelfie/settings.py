@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -24,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ndygu9mikas+l#uxhcdr2-(*+k)v@96-0pu)oly_9)80hztag-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -104,15 +105,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Shelfie.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Change 'default' database configuration with $DATABASE_URL.
+DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 
 # Password validation
@@ -200,3 +205,10 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 # URLs
 APPEND_SLASH = False
+
+# Production Dev Split
+try:
+    from Shelfie.local_settings import *
+
+except ImportError:
+    pass
