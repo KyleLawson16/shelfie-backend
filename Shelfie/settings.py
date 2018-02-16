@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import raven
 import dj_database_url
 from datetime import timedelta
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'raven.contrib.django.raven_compat',
 
     # Project apps
     'ShelfieGame',
@@ -118,6 +120,13 @@ DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# Sentry Logging
+RAVEN_CONFIG = {
+    'dsn': 'https://39ef3347e1a54cc68d07c54f272be780:61fe94a2df214a569f00c97c94cab713@sentry.io/289347',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(os.path.abspath(os.pardir)),
+}
 
 
 # Password validation
