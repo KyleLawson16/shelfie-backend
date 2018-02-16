@@ -72,19 +72,18 @@ class UserAdmin(BaseUserAdmin, ):
             'last_name',
             'phone_number',
             'gender',
-
         )}),
         ('Site info', {'fields': (
             'username',
             'profile_picture',
+            'following',
+            'followers',
             'is_staff',
             'is_active',
             'is_superuser',
             'groups',
             'user_permissions',
             'last_login',
-
-
         )}),
     )
 

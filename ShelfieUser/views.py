@@ -16,7 +16,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from ShelfieUser.forms import MemberFormPersonal, MemberProfilePhotoForm
 from ShelfieUser.models import User
 from ShelfieUser.permissions import IsOwnerOrSuperUser, IsSuperUser
-from ShelfieUser.serializers import UserCreateSerializer, UserSerializer
+from ShelfieUser.serializers import UserCreateSerializer, UserSerializer, UserFollowSerializer
 
 from knox.views import LoginView as KnoxLoginView
 from ShelfieUser.authentication import ExampleAuthentication, CreateUserAuthentication
@@ -77,14 +77,6 @@ class UserDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, gener
         random_user_id = self.kwargs.pop('random_user_id')
         user = get_object_or_404(User, random_user_id=random_user_id)
         tokens = AuthToken.objects.filter(user=user)
-        # If the use is not a super user ...
-        if not self.request.user.is_superuser:
-            # ... and the user they are looking at is not themselves then they are block
-            for token in tokens:
-                print token
-                # if not (token == self.request.token):
-                #     raise PermissionDenied(
-                #         'Sorry, you do not have permissions to view this entry')
         return user
 
 
@@ -104,6 +96,31 @@ class LoggedInUserAPIView(generics.RetrieveAPIView):
     def get_object(self, *args, **kwargs):
         user = self.request.user
         return user
+
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication,])
+@permission_classes([])
+def follow_create_api(request, *args, **kwargs):
+    active_user = get_object_or_404(User, random_user_id=request.data['random_user_id'])
+    followed_user = get_object_or_404(User, random_user_id=request.data['followed_user_id'])
+    active_user.following.add(followed_user) # add new user to list of active user's following
+    followed_user.followers.add(active_user) # add active_user to new user's list of followers
+    serializer = UserFollowSerializer()
+
+    return Response(serializer.data, status=HTTP_200_OK)
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication,])
+@permission_classes([])
+def follow_delete_api(request, *args, **kwargs):
+    active_user = get_object_or_404(User, random_user_id=request.data['random_user_id'])
+    followed_user = get_object_or_404(User, random_user_id=request.data['followed_user_id'])
+    active_user.following.remove(followed_user) # delete new user from list of active user's following
+    followed_user.followers.remove(active_user) # delete active_user from new user's list of followers
+    serializer = UserFollowSerializer()
+
+    return Response(serializer.data, status=HTTP_200_OK)
 
 
 @api_view(['POST'])

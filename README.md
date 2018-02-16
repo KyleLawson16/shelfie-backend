@@ -234,6 +234,8 @@ python manage.py runserver
 | date_joined               | date/time | (auto) Date of user creation |
 | gender                    | string | Choices: (male, female) |
 | profile_picture           | string | Url of profile picture in Amazon S3 |
+| following                 | ManyToMany(ShelfieUser.User) | List of users that user is following |
+| followers                 | ManyToMany(ShelfieUser.User) | List of users that user is followed by |
 
 ### ShelfieUser Routes
 
@@ -243,4 +245,6 @@ python manage.py runserver
 | api/v1/users              | GET    | None   | list of users |
 | api/v1/users/<random_user_id> | GET | None  | user |
 | api/v1/users/<random_user_id> | PUT | { 'profile_picture' }  | None |
+| api/v1/users/follow/add   | POST   | { 'random_user_id', 'followed_user_id' } | user following and followers |
+| api/v1/users/follow/delete   | POST   | { 'random_user_id', 'followed_user_id' } | user following and followers |
 | api/v1/users/logged-in-user | GET  | None   | user |

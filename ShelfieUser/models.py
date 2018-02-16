@@ -144,6 +144,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         null=True,
     )
+    following = models.ManyToManyField(
+        "self",
+        related_name='following_field',
+        blank=True,
+        symmetrical=False,
+    )
+    followers = models.ManyToManyField(
+        "self",
+        related_name='followers_field',
+        blank=True,
+        symmetrical=False,
+    )
 
 
 

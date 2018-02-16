@@ -62,6 +62,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserUrlField(serializers.HyperlinkedIdentityField):
     lookup_field = 'random_user_id'
 
+class UserFollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'random_user_id',
+            'username',
+            'followers',
+            'following',
+        ]
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     url = UserUrlField(view_name='ShelfieUser:UserDetailAPIView')
@@ -84,6 +94,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'is_superuser',
             'gender',
             'profile_picture',
+            'following',
+            'followers',
         ]
 
 # class UserLoginSerializer(serializers.ModelSerializer):
