@@ -27,7 +27,7 @@ class Team(models.Model):
         null=True,
     )
     logo_url = models.ImageField(
-        upload_to='teams/logos/',
+        upload_to='teams/logos',
         null=True,
         blank=True
     )
