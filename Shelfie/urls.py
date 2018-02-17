@@ -12,27 +12,6 @@ from knox import views as knox_views
 from Shelfie.views import LoginView
 
 
-def handler404(request):  # Handles page not found
-    # You need to create a 500.html template.
-    t = loader.get_template('404.html')
-    return HttpResponseServerError(t.render(Context({
-        'request': request,
-    })))
-
-
-def handler500(request):  # Handles server errors
-    # You need to create a 500.html template.
-    t = loader.get_template('500.html')
-    return HttpResponseServerError(t.render(Context({
-        'request': request,
-    })))
-
-
-def csrf_failure(request, reason=""):  # Expired CSRF Token
-    ctx = {'message': 'some custom messages'}
-    return render_to_response('./common/403.html', ctx)
-
-
 '''
 Django REST Frameworks Urls
 '''
