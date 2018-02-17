@@ -105,7 +105,8 @@ class GameLeaderboardSerializer(serializers.ModelSerializer):
             leaderboard_object = {
                 'random_user_id': user.random_user_id,
                 'username': user.username,
-                'points': user_points
+                'points': user_points,
+                'followers': user.followers
             }
             leaderboard.append(leaderboard_object)
 
