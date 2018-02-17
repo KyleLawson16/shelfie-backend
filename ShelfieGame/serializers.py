@@ -100,13 +100,17 @@ class GameLeaderboardSerializer(serializers.ModelSerializer):
             leaderboard_object = {}
             user_points = 0
             user_posts = posts.filter(user=user)
+            followers = []
+            for follower in user.followers.all():
+                followers.append(follower.random_user_id)
             for post in user_posts:
                 user_points += post.challenge.point_value
             leaderboard_object = {
                 'random_user_id': user.random_user_id,
                 'username': user.username,
                 'points': user_points,
-                'followers': user.followers
+                'followers': followers,
+                'profile_picture': user.profile_picture,
             }
             leaderboard.append(leaderboard_object)
 

@@ -141,8 +141,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     profile_picture = models.CharField(
         max_length=120,
-        blank=True,
-        null=True,
+        default="https://shelfie-challenge.s3.amazonaws.com/users%2Fprofile-photos%2Fdefault_profile.png"
     )
     following = models.ManyToManyField(
         "self",
