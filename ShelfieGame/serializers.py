@@ -113,6 +113,7 @@ class GameLeaderboardSerializer(serializers.ModelSerializer):
                 'profile_picture': user.profile_picture,
             }
             leaderboard.append(leaderboard_object)
+            sorted_leaderboard = sorted(leaderboard, key=lambda k: k['points'], reverse=True)
 
-        print leaderboard
-        return leaderboard
+        print sorted_leaderboard
+        return sorted_leaderboard
