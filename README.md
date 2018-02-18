@@ -190,6 +190,8 @@ python manage.py runserver
 | api/v1/posts              | GET    | None   | list of posts |
 | api/v1/posts/create       | POST   | **required:** { 'user', 'game', 'challenge', 'is_video', 'media_url' } **optional:** { 'caption' } | None |
 | api/v1/posts/<random_post_id> | GET | None | post |
+| api/v1/posts/<random_post_id> | PUT | 'caption' | new post |
+| api/v1/posts/<random_post_id> | DELETE | None | deletes post |
 | api/v1/posts/<random_post_id>/like/add | POST | 'random_user_id' | adds user to Post.likes |
 | api/v1/posts/<random_post_id>/like/delete | POST | 'random_user_id' | removes user from Post.likes |
 
