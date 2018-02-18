@@ -64,9 +64,19 @@ class UserDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, gener
     def put(self, request, *args, **kwargs):
         random_user_id = self.kwargs.pop('random_user_id')
         user = get_object_or_404(User, random_user_id=random_user_id)
-        user.profile_picture = request.data['profile_picture']
-        user.save()
-        return Response(HTTP_200_OK)
+        if len(request.data) == 1:
+            user.profile_picture = request.data['profile_picture']
+            user.save()
+            return Response(HTTP_200_OK)
+
+        else:
+            user.first_name = request.data['first_name']
+            user.last_name = request.data['last_name']
+            user.username = request.data['username']
+            user.phone_number = request.data['phone_number']
+            user.email = request.data['email']
+            user.save()
+            return Response(HTTP_200_OK)
 
 
     # Works off of the mixins.DestroyModelMixin
