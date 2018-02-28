@@ -38,6 +38,8 @@ urlpatterns = [
         namespace='ShelfiePrize')),
     url(r'^api/v1/teams', include('ShelfieTeam.urls',
         namespace='ShelfieTeam')),
+    url(r'^api/v1/notifications', include('ShelfieNotification.urls',
+        namespace='ShelfieNotification')),
 ]
 urlpatterns += [
 

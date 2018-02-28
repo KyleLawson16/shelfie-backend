@@ -119,7 +119,7 @@ def follow_create_api(request, *args, **kwargs):
     active_user.following.add(followed_user) # add new user to list of active user's following
     followed_user.followers.add(active_user) # add active_user to new user's list of followers
 
-    message = '%s followed you' %(active_user.username)
+    message = '%s started following you.' %(active_user.username)
     create_follow_notification(active_user, followed_user, 'follow', message)
 
     return Response(serializer.data, status=HTTP_200_OK)

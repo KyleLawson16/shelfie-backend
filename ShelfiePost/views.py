@@ -1,6 +1,5 @@
 import django_filters
 
-from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect, render
 
 from ShelfiePost.serializers import (
@@ -33,7 +32,7 @@ def like_create_api(request, *args, **kwargs):
     liker = get_object_or_404(User, random_user_id=request.data['random_user_id'])
     likee = get_object_or_404(User, random_user_id=post.user.random_user_id)
 
-    message = '%s liked your post' %(liker.username)
+    message = '%s liked your post.' %(liker.username)
     create_like_notification(liker, likee, post, 'like', message)
 
     return Response(serializer.data, status=HTTP_200_OK)
