@@ -17,6 +17,7 @@ from ShelfieUser.forms import MemberFormPersonal, MemberProfilePhotoForm
 from ShelfieUser.models import User
 from ShelfieUser.permissions import IsOwnerOrSuperUser, IsSuperUser
 from ShelfieUser.serializers import UserCreateSerializer, UserSerializer, UserFollowSerializer
+from ShelfieNotification.signals import create_follow_notification, delete_follow_notification
 
 from knox.views import LoginView as KnoxLoginView
 from ShelfieUser.authentication import ExampleAuthentication, CreateUserAuthentication
@@ -112,11 +113,14 @@ class LoggedInUserAPIView(generics.RetrieveAPIView):
 @authentication_classes([TokenAuthentication,])
 @permission_classes([])
 def follow_create_api(request, *args, **kwargs):
+    serializer = UserFollowSerializer()
     active_user = get_object_or_404(User, random_user_id=request.data['random_user_id'])
     followed_user = get_object_or_404(User, random_user_id=request.data['followed_user_id'])
     active_user.following.add(followed_user) # add new user to list of active user's following
     followed_user.followers.add(active_user) # add active_user to new user's list of followers
-    serializer = UserFollowSerializer()
+
+    message = '%s followed you' %(active_user.username)
+    create_follow_notification(active_user, followed_user, 'follow', message)
 
     return Response(serializer.data, status=HTTP_200_OK)
 
@@ -124,11 +128,13 @@ def follow_create_api(request, *args, **kwargs):
 @authentication_classes([TokenAuthentication,])
 @permission_classes([])
 def follow_delete_api(request, *args, **kwargs):
+    serializer = UserFollowSerializer()
     active_user = get_object_or_404(User, random_user_id=request.data['random_user_id'])
     followed_user = get_object_or_404(User, random_user_id=request.data['followed_user_id'])
     active_user.following.remove(followed_user) # delete new user from list of active user's following
     followed_user.followers.remove(active_user) # delete active_user from new user's list of followers
-    serializer = UserFollowSerializer()
+
+    delete_follow_notification(active_user, followed_user, 'follow')
 
     return Response(serializer.data, status=HTTP_200_OK)
 

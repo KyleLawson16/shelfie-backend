@@ -11,6 +11,7 @@ from ShelfiePost.serializers import (
 from ShelfiePost.models import Post
 from ShelfiePost.filters import PostFilter
 from ShelfieUser.models import User
+from ShelfieNotification.models import Notification
 
 from rest_framework import filters, generics, mixins
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -19,13 +20,21 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from knox.auth import TokenAuthentication
 
+from ShelfieNotification.signals import create_like_notification, delete_like_notification
+
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication,])
 @permission_classes([])
 def like_create_api(request, *args, **kwargs):
+    serializer = PostLikesSerializer()
     post = get_object_or_404(Post, random_post_id=request.data['random_post_id'])
     post.likes.add(request.data['random_user_id'])
-    serializer = PostLikesSerializer()
+
+    liker = get_object_or_404(User, random_user_id=request.data['random_user_id'])
+    likee = get_object_or_404(User, random_user_id=post.user.random_user_id)
+
+    message = '%s liked your post' %(liker.username)
+    create_like_notification(liker, likee, post, 'like', message)
 
     return Response(serializer.data, status=HTTP_200_OK)
 
@@ -33,10 +42,15 @@ def like_create_api(request, *args, **kwargs):
 @authentication_classes([TokenAuthentication,])
 @permission_classes([])
 def like_delete_api(request, *args, **kwargs):
+    serializer = PostLikesSerializer()
     post = get_object_or_404(Post, random_post_id=request.data['random_post_id'])
     user = get_object_or_404(User, random_user_id=request.data['random_user_id'])
     post.likes.remove(user)
-    serializer = PostLikesSerializer()
+
+    liker = user
+    likee = get_object_or_404(User, random_user_id=post.user.random_user_id)
+
+    delete_like_notification(liker, likee, post, 'like')
 
     return Response(serializer.data, status=HTTP_200_OK)
 

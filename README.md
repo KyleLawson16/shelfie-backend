@@ -11,6 +11,7 @@
 ## Models:
 * [ShelfieChallenge](#ShelfieChallenge)
 * [ShelfieGame](#ShelfieGame)
+* [ShelfieNotification](#ShelfieNotification)
 * [ShelfiePost](#ShelfiePost)
 * [ShelfiePrize](#ShelfiePrize)
 * [ShelfieTeam](#ShelfieTeam)
@@ -165,6 +166,39 @@ python manage.py runserver
 | api/v1/games/<random_game_id> | GET | None | game |
 | api/v1/games/<random_game_id> | PUT | 'random_user_id' | adds user to Game.fans |
 | api/v1/games/<random_game_id>/leaderboard | GET | None | { 'random_user_id', 'username', 'points' } in descending order of pts |
+
+
+
+## <a name="ShelfieNotification">ShelfieNotification</a>
+### ShelfieNotification.Notification Fields
+
+| Field                     |  Type  | Description (* indicates required)       |
+| ------------------------- | ------ | :--------------------------------------- |
+| random_notification_id    | string | *(PK) |
+| actor                     | FK(ShelfieUser.User | *User performing action that triggers notification |
+| recipient                 | FK(ShelfieUser.User) | *User who receives the notification |
+| post                      | FK(ShelfiePost.Post) | Post that the notification is related to |
+| category                  | string | *Choices: ('like', 'follow', 'prize') |
+| message                   | string | Message of the notification |
+| active                    | boolean | *Tells whether or not the notification is active (hasn't been viewed) |
+| timestamp                 | date/time | Time of creation |
+
+### ShelfieNotification Routes
+
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | ------------ |
+| api/v1/notifications      | GET    | filters { random_user_id, random_post_id } | list of notifications |
+| api/v1/notifications/<random_notification_id> | GET | None | notification |
+
+### ShelfieNotification Signals
+
+| Name                       | Type   | Takes  | Response       |
+| -------------------------- | :----: | ------ | ------------ |
+| create_like_notification   | ADD    | { 'actor', 'recipient', 'post', 'category', 'message' } | notification |
+| delete_like_notification   | DELETE | { 'actor', 'recipient', 'post', 'category' } | - |
+| create_follow_notification | ADD    | { 'actor', 'recipient', 'category', 'message' } | notification |
+| delete_like_notification   | DELETE | { 'actor', 'recipient', 'category' } | - |
+
 
 
 
