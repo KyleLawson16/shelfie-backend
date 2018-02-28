@@ -197,7 +197,7 @@ python manage.py runserver
 | create_like_notification   | ADD    | { 'actor', 'recipient', 'post', 'category', 'message' } | notification |
 | delete_like_notification   | DELETE | { 'actor', 'recipient', 'post', 'category' } | - |
 | create_follow_notification | ADD    | { 'actor', 'recipient', 'category', 'message' } | notification |
-| delete_like_notification   | DELETE | { 'actor', 'recipient', 'category' } | - |
+| delete_follow_notification   | DELETE | { 'actor', 'recipient', 'category' } | - |
 
 
 
