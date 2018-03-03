@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='challenge',
             name='background_photo',
-            field=models.ImageField(default='https://shelfie-challenge.s3.amazonaws.com/challenges/grey_and_black_photo.png?Signature=hrCGqDVYYT%2FMrmeVKPNYBTvNiRw%3D&Expires=1519944611&AWSAccessKeyId=AKIAJJ2VBIDH6Z4LWTEA', upload_to='challenges'),
+            field=models.ImageField(default='https://shelfie-challenge', upload_to='challenges'),
         ),
     ]
