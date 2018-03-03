@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ShelfiePost.models import Post
+from ShelfiePost.models import Post, Report
 from ShelfieUser.models import User
 from ShelfieGame.models import Game
 from ShelfieChallenge.models import Challenge
@@ -74,4 +74,15 @@ class PostCreateSerializer(serializers.ModelSerializer):
             'is_video',
             'media_url',
             'caption',
+        ]
+
+class ReportSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Report
+        fields = [
+            'random_report_id',
+            'post',
+            'user',
+            'message',
+            'timestamp',
         ]

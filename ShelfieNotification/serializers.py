@@ -30,6 +30,7 @@ class NotificationListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
         fields = [
+            'random_notification_id',
             'actor',
             'recipient',
             'post',

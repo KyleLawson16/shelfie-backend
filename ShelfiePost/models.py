@@ -58,3 +58,34 @@ class Post(models.Model):
 
     def __unicode__(self):
         return str(self.user) + '-' + str(self.game) + '-' + str(self.challenge)
+
+
+class Report(models.Model):
+    random_report_id = models.CharField(
+        'Random Report Id',
+        editable=False,
+        unique=True,
+        max_length=120,
+        default=random_id,
+        primary_key=True
+    )
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+    message = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True,
+    )
+    timestamp = models.DateTimeField(
+        auto_now=False,
+        auto_now_add=True
+    )
+
+    def __unicode__(self):
+        return str(self.random_report_id)

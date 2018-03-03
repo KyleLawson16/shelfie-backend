@@ -15,5 +15,6 @@ class ChallengeSerializer(serializers.HyperlinkedModelSerializer):
             'random_challenge_id',
             'name',
             'description',
-            'point_value'
+            'point_value',
+            'background_photo',
         ]

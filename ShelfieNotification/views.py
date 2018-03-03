@@ -29,3 +29,22 @@ class NotificationListAPIView(generics.ListAPIView):
     def get_queryset(self):
         notifications = Notification.objects.all().order_by('-timestamp')
         return notifications
+
+class NotificationUpdateAPIView(mixins.UpdateModelMixin):
+    serializer_class = NotificationListSerializer
+    queryset = Notification.objects.all()
+    authentication_classes = [TokenAuthentication,]
+    permission_classes = []
+
+
+@api_view(['PUT'])
+@authentication_classes([TokenAuthentication,])
+@permission_classes([])
+def notification_update_api(request, *args, **kwargs):
+    notification_ids = request.data['random_notification_ids']
+    for notification_id in notification_ids:
+        notification = get_object_or_404(Notification, random_notification_id=notification_id)
+        notification.active = False
+        notification.save()
+
+    return Response(HTTP_200_OK)

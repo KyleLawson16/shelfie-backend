@@ -31,6 +31,10 @@ class Prize(models.Model):
         on_delete=models.CASCADE,
         blank=True,
     )
+    background_photo = models.ImageField(
+        upload_to='challenges',
+        default='challenges/laurel-wreath-304839_1280withbackground.png'
+    )
 
     def __unicode__(self):
         return str(self.name)

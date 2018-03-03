@@ -217,6 +217,16 @@ python manage.py runserver
 | timestamp                 | date/time | (auto) Date when post was created |
 | likes                     | ManyToMany(ShelfieUser.User) | List of user objects that liked post |
 
+### ShelfiePost.Report Fields
+
+| Field                     |  Type  | Description (* indicates required)       |
+| ------------------------- | ------ | :--------------------------------------- |
+| random_report_id          | string | *(PK) |
+| post                      | FK(ShelfiePost.Post) | *Post being reported |
+| user                      | FK(ShelfieUser.User) | *User reporting the post |
+| message                   | string | Reason for reporting post |
+| timestamp                 | date/time | (auto) Time when report was filed |
+
 ### ShelfiePost Routes
 
 | Route                     | Type   | Takes  | Response       |
@@ -228,6 +238,7 @@ python manage.py runserver
 | api/v1/posts/<random_post_id> | DELETE | None | deletes post |
 | api/v1/posts/<random_post_id>/like/add | POST | 'random_user_id' | adds user to Post.likes |
 | api/v1/posts/<random_post_id>/like/delete | POST | 'random_user_id' | removes user from Post.likes |
+| api/v1/posts/<random_post_id>/report | POST | { 'random_user_id', 'message' } | report |
 
 
 

@@ -3,8 +3,9 @@ from ShelfiePost.views import (
     PostListAPIView,
     PostDetailAPIView,
     PostCreateAPIView,
+    ReportCreateAPIView,
     like_create_api,
-    like_delete_api
+    like_delete_api,
 )
 
 urlpatterns = [
@@ -17,5 +18,7 @@ urlpatterns = [
     url(r'^/(?P<random_post_id>[\w-]+)/like/add$', like_create_api,
         name='like_create_api'),
     url(r'^/(?P<random_post_id>[\w-]+)/like/delete$', like_delete_api,
-        name='like_delete_api')
+        name='like_delete_api'),
+    url(r'^/(?P<random_post_id>[\w-]+)/report$', ReportCreateAPIView.as_view(),
+        name='ReportCreateAPIView'),
 ]

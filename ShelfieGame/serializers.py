@@ -18,6 +18,7 @@ class GameChallengesSerializer(serializers.ModelSerializer):
             'random_challenge_id',
             'name',
             'description',
+            'background_photo',
         ]
 
 class GamePrizesSerializer(serializers.ModelSerializer):
@@ -26,6 +27,7 @@ class GamePrizesSerializer(serializers.ModelSerializer):
         fields = [
             'name',
             'description',
+            'background_photo',
         ]
 
 class GameFansSerializer(serializers.ModelSerializer):

@@ -25,6 +25,10 @@ class Challenge(models.Model):
     )
     point_value = models.IntegerField(
     )
+    background_photo = models.ImageField(
+        upload_to='challenges',
+        default='challenges/grey_and_black_photo.png',
+    )
 
     def __unicode__(self):
         return str(self.name)
