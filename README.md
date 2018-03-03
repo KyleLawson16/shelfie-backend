@@ -133,6 +133,7 @@ python manage.py runserver
 | name                      | string | *Name of challenge |
 | description               | string | *Description of challenge |
 | point_value               | integer | *Point value of challenge |
+| background_photo          | image  | Background image found at S3 challenges/* |
 
 ### ShelfieChallenge Routes
 
@@ -252,6 +253,7 @@ python manage.py runserver
 | name                      | string | *Name of prize |
 | description               | string | *Description of prize |
 | winner                    | FK(ShelfieUser.User) | User that won the prize |
+| background_photo          | image  | Background image found at S3 prizes/* |
 
 ### ShelfiePrize Routes
 
