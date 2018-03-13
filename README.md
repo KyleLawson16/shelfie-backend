@@ -11,6 +11,7 @@
 ## Models:
 * [ShelfieChallenge](#ShelfieChallenge)
 * [ShelfieGame](#ShelfieGame)
+* [ShelfieKey](#ShelfieKey)
 * [ShelfieNotification](#ShelfieNotification)
 * [ShelfiePost](#ShelfiePost)
 * [ShelfiePrize](#ShelfiePrize)
@@ -167,6 +168,24 @@ python manage.py runserver
 | api/v1/games/<random_game_id> | GET | None | game |
 | api/v1/games/<random_game_id> | PUT | 'random_user_id' | adds user to Game.fans |
 | api/v1/games/<random_game_id>/leaderboard | GET | None | { 'random_user_id', 'username', 'points' } in descending order of pts |
+
+
+
+## <a name="ShelfieKey">ShelfieKey</a>
+### ShelfieKey.AmazonS3 Fields
+
+| Field                     |  Type  | Description (* indicates required)       |
+| ------------------------- | ------ | :--------------------------------------- |
+| bucket                    | string | *aws bucket |
+| region                    | string | *aws region |
+| access_key                | string | *aws access key |
+| secret_access_key         | string | *aws secret access key |
+
+### ShelfieKey Routes
+
+| Route                     | Type   | Takes  | Response       |
+| ------------------------- | :----: | ------ | ------------ |
+| api/v1/keys/amazons3      | GET    | None   | AmazonS3 credentials |
 
 
 

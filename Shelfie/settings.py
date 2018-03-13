@@ -47,12 +47,13 @@ INSTALLED_APPS = [
 
 
     # Project apps
-    'ShelfieGame',
     'ShelfieChallenge',
+    'ShelfieGame',
+    'ShelfieKey',
+    'ShelfieNotification',
     'ShelfiePost',
     'ShelfiePrize',
     'ShelfieTeam',
-    'ShelfieNotification',
 
     # Third party apps
     'allauth',  # Django All Auth
@@ -128,7 +129,6 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 RAVEN_CONFIG = {
     'dsn': 'https://39ef3347e1a54cc68d07c54f272be780:61fe94a2df214a569f00c97c94cab713@sentry.io/289347',
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
