@@ -27,7 +27,7 @@ class Challenge(models.Model):
     )
     background_photo = models.ImageField(
         upload_to='challenges',
-        default='challenges/grey_and_black_photo.png',
+        default='challenges/shelfie_challenge_background.png',
     )
 
     def __unicode__(self):

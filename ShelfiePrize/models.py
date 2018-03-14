@@ -33,7 +33,7 @@ class Prize(models.Model):
     )
     background_photo = models.ImageField(
         upload_to='prizes',
-        default='prizes/laurel-wreath-304839_1280withbackground.png'
+        default='prizes/shelfie_prize_background.png'
     )
 
     def __unicode__(self):
