@@ -30,6 +30,7 @@ class Prize(models.Model):
         User,
         on_delete=models.CASCADE,
         blank=True,
+        null=True,
     )
     background_photo = models.ImageField(
         upload_to='prizes',
