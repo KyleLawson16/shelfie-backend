@@ -27,7 +27,7 @@ class GameListAPIView(generics.ListAPIView):
                      'organization')
 
     def get_queryset(self):
-        games = Game.objects.all()
+        games = Game.objects.all().order_by('-timestamp')
         return games
 
 
