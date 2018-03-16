@@ -20,7 +20,7 @@ class GameListAPIView(generics.ListAPIView):
     serializer_class = GameSerializer
     queryset = Game.objects.all()
     authentication_classes = [TokenAuthentication,]
-    permission_classes = []
+    permission_classes = [IsAuthenticated,]
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,
                        filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('home_team', 'date', 'location',
@@ -35,7 +35,7 @@ class GameDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, gener
     serializer_class = GameSerializer
     queryset = Game.objects.all()
     authentication_classes = [TokenAuthentication,]
-    permission_classes = []
+    permission_classes = [IsAuthenticated,]
 
     def get_object(self, *args, **kwargs):
         random_game_id = self.kwargs.pop('random_game_id')

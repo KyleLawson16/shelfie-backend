@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'knox',
     'django_filters',
     'storages',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -89,7 +90,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
 
 ROOT_URLCONF = 'Shelfie.urls'
 
@@ -218,6 +223,13 @@ AWS_S3_SECRET_ACCESS_KEY = os.environ.get('AWS_S3_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+# Mailgun
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'postmaster@mg.shelfiechallenge.com'
+EMAIL_HOST_PASSWORD = os.environ.get('MAILGUN_PASSWORD')
+EMAIL_USE_TLS = True
 
 # URLs
 APPEND_SLASH = False

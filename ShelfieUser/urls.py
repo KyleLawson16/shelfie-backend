@@ -6,7 +6,10 @@ from ShelfieUser.views import (
     UserListAPIView,
     follow_create_api,
     follow_delete_api,
-    validate_user_data
+    validate_user_data,
+    update_password,
+    reset_password,
+    forgot_password,
 )
 
 urlpatterns = [
@@ -24,4 +27,10 @@ urlpatterns = [
         name='LoggedInUserAPIView'),
     url(r'^validate/user$', validate_user_data,
         name='validate_user_name'),
+    url(r'^update-password/user$', update_password,
+        name='update_password'),
+    url(r'^reset-password/user$', reset_password,
+        name='reset_password'),
+    url(r'^forgot-password/user$', forgot_password,
+        name='forgot_password'),
 ]

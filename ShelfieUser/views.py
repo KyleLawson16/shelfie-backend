@@ -2,6 +2,7 @@ import django_filters
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from rest_framework import filters, generics, mixins
 from rest_framework.authentication import (BasicAuthentication,
@@ -108,6 +109,56 @@ class LoggedInUserAPIView(generics.RetrieveAPIView):
         user = self.request.user
         return user
 
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication,])
+@permission_classes([IsAuthenticated,])
+def update_password(request, *args, **kwargs):
+    user = get_object_or_404(User, username=request.data['username'])
+    current_password = request.data['current_password']
+    new_password = request.data['new_password']
+    if user.check_password(current_password):
+        user.set_password(new_password)
+        user.save()
+
+    else:
+        return Response({'error': 'Incorrect password'}, status=HTTP_400_BAD_REQUEST)
+    return Response({'message': 'Successfully updated password'}, status=200)
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def reset_password(request, *args, **kwargs):
+    user = get_object_or_404(User, username=request.data['username'])
+    user_token = AuthToken.objects.filter(user=user)
+    user_token_data = user_token[0].digest
+    post_token_data = request.data['token']
+    if post_token_data == user_token_data:
+        new_password = request.data['password']
+        user.set_password(new_password)
+        user.save()
+        return Response({'message': 'Successfully updated password'}, status=200)
+    else:
+        return Response({'error': 'Unauthorized'}, status=HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
+def forgot_password(request, *args, **kwargs):
+    user = get_object_or_404(User, username=request.data['username'])
+    token = AuthToken.objects.filter(user=user)
+    token_data = token[0].digest
+    subject = 'Reset Password for Shelfie Challenge'
+    body_message = 'Click the following link in order to reset your password'
+    body = '%s: https://dashboard.shelfiechallenge.com/password-reset/%s?token=%s' %(body_message, user.username, token_data)
+    send_mail(
+        subject,
+        body,
+        'support@shelfiechallenge.com',
+        [user.email]
+    )
+    return Response({'message': 'Check your email for instructions on how to reset your password...'}, status=200)
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication,])
