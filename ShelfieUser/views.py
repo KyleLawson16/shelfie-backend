@@ -26,6 +26,8 @@ from knox.models import AuthToken
 from knox.auth import TokenAuthentication
 from django.contrib.auth import authenticate
 
+from uuid import uuid4
+
 
 class UserListAPIView(generics.ListAPIView):
     serializer_class = UserSerializer
@@ -130,35 +132,45 @@ def update_password(request, *args, **kwargs):
 @permission_classes([])
 def reset_password(request, *args, **kwargs):
     user = get_object_or_404(User, username=request.data['username'])
-    user_token = AuthToken.objects.filter(user=user)
-    user_token_data = user_token[0].digest
-    post_token_data = request.data['token']
-    if post_token_data == user_token_data:
+    user_token = user.reset_password_token
+    post_token = request.data['token']
+    if post_token == user_token:
         new_password = request.data['password']
         user.set_password(new_password)
+        user.reset_password_token = ''
         user.save()
-        return Response({'message': 'Successfully updated password'}, status=200)
+        return Response({'message': 'Your password has updated successfully'}, status=200)
     else:
-        return Response({'error': 'Unauthorized'}, status=HTTP_400_BAD_REQUEST)
+        return Response({'error': 'This reset password url has expired'}, status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 @authentication_classes([])
 @permission_classes([])
 def forgot_password(request, *args, **kwargs):
-    user = get_object_or_404(User, username=request.data['username'])
-    token = AuthToken.objects.filter(user=user)
-    token_data = token[0].digest
+    username_or_email = request.data['user']
+    if len(User.objects.filter(username=username_or_email)) == 0:
+        if len(User.objects.filter(email=username_or_email)) == 0:
+            return Response({'error': 'No user with that username or email exists'}, status=HTTP_400_BAD_REQUEST)
+        else:
+            user = User.objects.filter(email=username_or_email)[0]
+    else:
+        user = User.objects.filter(username=username_or_email)[0]
+
+    reset_password_token = uuid4()
+    user.reset_password_token = reset_password_token
+    user.save()
     subject = 'Reset Password for Shelfie Challenge'
     body_message = 'Click the following link in order to reset your password'
-    body = '%s: https://dashboard.shelfiechallenge.com/password-reset/%s?token=%s' %(body_message, user.username, token_data)
+    root_url = 'https://dashboard.shelfiechallenge.com'
+    body = '%s: %s/reset-password/%s?token=%s' %(body_message, root_url, user.username, reset_password_token)
     send_mail(
         subject,
         body,
         'support@shelfiechallenge.com',
         [user.email]
     )
-    return Response({'message': 'Check your email for instructions on how to reset your password...'}, status=200)
+    return Response({'message': 'Check your email for password reset instructions'}, status=200)
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication,])

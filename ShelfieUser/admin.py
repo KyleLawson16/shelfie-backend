@@ -72,6 +72,7 @@ class UserAdmin(BaseUserAdmin, ):
             'last_name',
             'phone_number',
             'gender',
+            'reset_password_token',
         )}),
         ('Site info', {'fields': (
             'username',

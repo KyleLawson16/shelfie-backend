@@ -27,10 +27,10 @@ urlpatterns = [
         name='LoggedInUserAPIView'),
     url(r'^validate/user$', validate_user_data,
         name='validate_user_name'),
-    url(r'^update-password/user$', update_password,
+    url(r'^user/update-password$', update_password,
         name='update_password'),
-    url(r'^reset-password/user$', reset_password,
+    url(r'^user/reset-password$', reset_password,
         name='reset_password'),
-    url(r'^forgot-password/user$', forgot_password,
+    url(r'^user/forgot-password$', forgot_password,
         name='forgot_password'),
 ]

@@ -155,6 +155,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         symmetrical=False,
     )
+    reset_password_token = models.CharField(
+        max_length=120,
+        blank=True,
+        null=True,
+    )
 
 
 
