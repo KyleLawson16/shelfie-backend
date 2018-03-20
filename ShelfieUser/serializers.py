@@ -103,6 +103,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'is_staff',
             'is_superuser',
             'gender',
+            'favorite_team',
             'profile_picture',
             'followers',
             'following',

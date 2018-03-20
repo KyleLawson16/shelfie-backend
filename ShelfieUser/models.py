@@ -139,6 +139,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
         default="",
     )
+    favorite_team = models.CharField(
+        'Favorite Team',
+        max_length=60,
+        blank=True,
+        null=True
+    )
     profile_picture = models.CharField(
         max_length=120,
         default="https://shelfie-challenge-production.s3.amazonaws.com/users%2Fprofile-photos%2Fshelfie_profile.png"

@@ -79,6 +79,7 @@ class UserDetailAPIView(mixins.DestroyModelMixin, mixins.UpdateModelMixin, gener
             user.username = request.data['username']
             user.phone_number = request.data['phone_number']
             user.email = request.data['email']
+            user.favorite_team = request.data['favorite_team']
             user.save()
             return Response(HTTP_200_OK)
 
